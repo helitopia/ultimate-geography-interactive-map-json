@@ -1,0 +1,14 @@
+{
+  "name": "ultimate-geography-interactive-map-json",
+  "version": "1.0.0",
+  "files": ["dist/world.json", "dist/world.d.ts"],
+  "scripts": {
+    "validate-schema": "node ./src/validate-schema.js",
+    "generate-types": "json2ts ./src/world.schema.json > ./dist/world.d.ts"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.1",
+    "json-schema-to-typescript": "^15.0.4"
+  }
+}
