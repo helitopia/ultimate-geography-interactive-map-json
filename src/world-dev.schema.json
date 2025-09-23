@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "regions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "commonTerritories": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "regions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^\\w{3}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/region"
+      }
+    }
+  },
+  "$defs": {
+    "region": {
+      "type": "object",
+      "required": [
+        "regionName",
+        "areas"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "regionName": {
+          "type": "string"
+        },
+        "areas": {
+          "$ref": "#/$defs/areas"
+        },
+        "disputedRegions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/disputedRegion"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "areas": {
+      "type": "object",
+      "required": [
+        "high-res"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "low-res": {
+          "$ref": "#/$defs/area"
+        },
+        "medium-res": {
+          "$ref": "#/$defs/area"
+        },
+        "high-res": {
+          "$ref": "#/$defs/area"
+        }
+      }
+    },
+    "area": {
+      "type": "object",
+      "required": [
+        "areaWKT",
+        "sourceMetadata"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "areaWKT": {
+          "type": "string",
+          "pattern": "^(POLYGON|MULTIPOLYGON)"
+        },
+        "sourceMetadata": {
+          "type": "object",
+          "required": [
+            "layerName",
+            "entityIdentifier"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "layerName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "entityIdentifier": {
+              "type": "string",
+              "pattern": "^[A-Z_]+=.+$"
+            },
+            "remark": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "disputedRegion": {
+      "type": "object",
+      "required": [
+        "controlType",
+        "areaReference"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "controlType": {
+          "type": "string",
+          "enum": [
+            "CONTROLLED",
+            "CLAIMED"
+          ]
+        },
+        "areaReference": {
+          "type": "object",
+          "required": [
+            "referenceType",
+            "referenceId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "referenceType": {
+              "type": "string",
+              "enum": [
+                "regionReference",
+                "territoryReference"
+              ]
+            },
+            "referenceId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "width",
+    "height",
+    "regions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "commonTerritories": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "regions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^\\w{3}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/region"
+      }
+    }
+  },
+  "$defs": {
+    "region": {
+      "type": "object",
+      "required": [
+        "regionName",
+        "areas"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "regionName": {
+          "type": "string"
+        },
+        "areas": {
+          "$ref": "#/$defs/areas"
+        },
+        "disputedRegions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/disputedRegion"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "areas": {
+      "type": "object",
+      "required": [
+        "high-res"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "low-res": {
+          "$ref": "#/$defs/area"
+        },
+        "medium-res": {
+          "$ref": "#/$defs/area"
+        },
+        "high-res": {
+          "$ref": "#/$defs/area"
+        }
+      }
+    },
+    "area": {
+      "type": "object",
+      "required": [
+        "areaSVG"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "areaSVG": {
+          "type": "string"
+        }
+      }
+    },
+    "disputedRegion": {
+      "type": "object",
+      "required": [
+        "controlType",
+        "areaReference"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "controlType": {
+          "type": "string",
+          "enum": [
+            "CONTROLLED",
+            "CLAIMED"
+          ]
+        },
+        "areaReference": {
+          "type": "object",
+          "required": [
+            "referenceType",
+            "referenceId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "referenceType": {
+              "type": "string",
+              "enum": [
+                "regionReference",
+                "territoryReference"
+              ]
+            },
+            "referenceId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
