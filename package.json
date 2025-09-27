@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "files": ["dist/world.json", "dist/world.d.ts"],
   "scripts": {
-    "validate-schema": "node ./src/validate-schema.js",
+    "validate-schema": "node src/validate-schema.mjs",
+    "validate-schema-test": "node src/validate-schema-test.mjs",
     "generate-types": "json2ts ./src/world.schema.json > ./dist/world.d.ts"
   },
   "devDependencies": {

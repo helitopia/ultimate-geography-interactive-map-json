@@ -1,0 +1,21 @@
+{
+  "height": 0,
+  "width": 0,
+  "commonTerritories": {
+    "Crimea": "...",
+    "India_Pakistan_Disputed_1": "..."
+  },
+  "regions": {
+    "ABW": {
+      "regionName": "Aruba",
+      "areas": {
+        "low-res": {
+          "areaWKT": "",
+          "sourceMetadata": {
+            "sourceType": "abc"
+          }
+        }
+      }
+    }
+  }
+}

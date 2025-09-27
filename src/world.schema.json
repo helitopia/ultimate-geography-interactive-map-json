@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
     "regions",
@@ -31,17 +32,17 @@
   "$defs": {
     "region": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "regionName",
-        "area"
+        "areas"
       ],
+      "additionalProperties": false,
       "properties": {
         "regionName": {
           "type": "string"
         },
-        "area": {
-          "type": "string"
+        "areas": {
+          "$ref": "#/$defs/areas"
         },
         "disputedRegions": {
           "type": "array",
@@ -52,11 +53,89 @@
         }
       }
     },
+    "areas": {
+      "type": "object",
+      "required": [
+        "low-res",
+        "medium-res",
+        "high-res"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "low-res": {
+          "$ref": "#/$defs/area"
+        },
+        "medium-res": {
+          "$ref": "#/$defs/area"
+        },
+        "high-res": {
+          "$ref": "#/$defs/area"
+        }
+      }
+    },
+    "area": {
+      "type": "object",
+      "required": [
+        "areaWKT",
+        "sourceMetadata"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "areaWKT": {
+          "type": "string"
+        },
+        "sourceMetadata": {
+          "type": "object",
+          "required": ["sourceType"],
+          "additionalProperties": false,
+          "properties": {
+            "sourceType": {
+              "type": "string"
+            }
+          },
+          "if": {
+            "properties": {
+              "sourceType": {
+                "const": "Natural Earth"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/naturalEarthMetadata"
+          },
+          "else": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "naturalEarthMetadata": {
+      "required": [
+        "sourceUrl",
+        "layerName",
+        "entityIdentifier"
+      ],
+      "properties": {
+        "sourceUrl": {
+          "type": "string"
+        },
+        "layerName": {
+          "type": "string"
+        },
+        "entityIdentifier": {
+          "type": "string",
+          "pattern": "^\\w+=\\w+$"
+        },
+        "remark": {
+          "type": "string"
+        }
+      }
+    },
     "disputedRegion": {
       "type": "object",
       "required": [
         "controlType",
-        "area"
+        "areaReference"
       ],
       "additionalProperties": false,
       "properties": {
@@ -67,11 +146,11 @@
             "CLAIMED"
           ]
         },
-        "area": {
+        "areaReference": {
           "type": "object",
           "required": [
             "referenceType",
-            "id"
+            "referenceId"
           ],
           "additionalProperties": false,
           "properties": {
@@ -82,7 +161,7 @@
                 "territoryReference"
               ]
             },
-            "id": {
+            "referenceId": {
               "type": "string"
             }
           }
